@@ -2,16 +2,51 @@
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#c4a77d"/>
-      <stop offset="100%" style="stop-color:#8b7355"/>
+      <stop offset="100%" style="stop-color:#96784a"/>
+    </linearGradient>
+    <linearGradient id="cart" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
     </linearGradient>
   </defs>
   <!-- Background -->
-  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
-  <!-- Cart body -->
-  <path d="M120 150 L160 150 L200 320 L380 320 L410 180 L180 180" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Cart wheels -->
-  <circle cx="220" cy="380" r="30" fill="white"/>
-  <circle cx="350" cy="380" r="30" fill="white"/>
+  <rect width="512" height="512" rx="90" fill="url(#bg)"/>
+  
+  <!-- Shadow under cart -->
+  <ellipse cx="270" cy="410" rx="120" ry="15" fill="rgba(0,0,0,0.15)"/>
+  
+  <!-- Cart handle -->
+  <path d="M80 115 L130 115" stroke="white" stroke-width="22" stroke-linecap="round"/>
+  
+  <!-- Cart body outline -->
+  <path d="M130 115 L155 290 C158 310 172 325 192 325 L365 325 C385 325 400 310 403 290 L430 145 L155 145" 
+        fill="url(#cart)" stroke="white" stroke-width="4"/>
+  
+  <!-- Cart inside shadow -->
+  <path d="M165 155 L185 285 C186 295 193 302 203 302 L355 302 C365 302 372 295 373 285 L395 155 Z" 
+        fill="rgba(0,0,0,0.05)"/>
+  
+  <!-- Cart grid lines -->
+  <line x1="200" y1="155" x2="220" y2="302" stroke="rgba(0,0,0,0.1)" stroke-width="3"/>
+  <line x1="280" y1="155" x2="285" y2="302" stroke="rgba(0,0,0,0.1)" stroke-width="3"/>
+  <line x1="360" y1="155" x2="350" y2="302" stroke="rgba(0,0,0,0.1)" stroke-width="3"/>
+  <line x1="165" y1="200" x2="395" y2="200" stroke="rgba(0,0,0,0.08)" stroke-width="3"/>
+  <line x1="175" y1="250" x2="385" y2="250" stroke="rgba(0,0,0,0.08)" stroke-width="3"/>
+  
+  <!-- Wheels -->
+  <circle cx="210" cy="380" r="35" fill="#555" stroke="white" stroke-width="8"/>
+  <circle cx="210" cy="380" r="12" fill="#888"/>
+  <circle cx="360" cy="380" r="35" fill="#555" stroke="white" stroke-width="8"/>
+  <circle cx="360" cy="380" r="12" fill="#888"/>
+  
+  <!-- Wheel connectors -->
+  <path d="M192 325 L192 345 L210 345" stroke="#666" stroke-width="10" fill="none" stroke-linejoin="round"/>
+  <path d="M365 325 L365 345 L360 345" stroke="#666" stroke-width="10" fill="none" stroke-linejoin="round"/>
+  
+  <!-- Checkmark circle background -->
+  <circle cx="380" cy="130" r="55" fill="#4CAF50"/>
+  <circle cx="380" cy="130" r="45" fill="#5CBF60"/>
+  
   <!-- Checkmark -->
-  <path d="M240 230 L280 270 L360 190" fill="none" stroke="#4CAF50" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M355 130 L372 150 L410 105" fill="none" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

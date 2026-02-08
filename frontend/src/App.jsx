@@ -524,13 +524,11 @@ function App() {
         <div className="home-header">
           <h1>Список покупок</h1>
           <div className="header-buttons">
-            <button
-              className={`btn-logo ${installPrompt ? 'can-install' : ''}`}
-              onClick={installPrompt ? handleInstall : undefined}
-              aria-label={installPrompt ? "Встановити додаток" : "Список покупок"}
-            >
-              <img src="/logo.png" alt="Лого" className="logo-small" />
-            </button>
+            {installPrompt && (
+              <button className="btn-theme can-install" onClick={handleInstall} aria-label="Встановити додаток">
+                📲
+              </button>
+            )}
             <button className="btn-theme" onClick={toggleTheme} aria-label="Змінити тему">
               {theme === 'light' ? '🌙' : '☀️'}
             </button>

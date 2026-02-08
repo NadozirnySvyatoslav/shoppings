@@ -635,45 +635,18 @@ h2 {
   }
 }
 
-/* Logo button for PWA install */
-.btn-logo {
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.btn-logo:hover {
-  transform: scale(1.05);
-}
-
-.btn-logo.can-install {
+/* PWA install button animation */
+.btn-theme.can-install {
   animation: pulse 2s infinite;
 }
 
-.btn-logo.can-install:hover {
+.btn-theme.can-install:hover {
   animation: none;
-  transform: scale(1.1);
 }
 
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
   50% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
-}
-
-.logo-small {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  border-radius: 6px;
 }
 
 /* Home header with info button */

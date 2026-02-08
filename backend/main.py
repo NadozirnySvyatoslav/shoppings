@@ -397,22 +397,35 @@ async def delete_item(list_id: str, item_id: str):
 def get_suggestions(q: str = ""):
     common_items = load_common_items()
 
+    # Filter: show only items with count >= 5 (popular enough) or default items
+    filtered_items = {
+        name: count for name, count in common_items.items()
+        if count >= 5 or name in DEFAULT_COMMON_ITEMS
+    }
+
     if len(q) < 2:
         # Return top popular items sorted by popularity
-        sorted_items = sorted(common_items.items(), key=lambda x: x[1], reverse=True)
+        sorted_items = sorted(filtered_items.items(), key=lambda x: x[1], reverse=True)
         return [item[0] for item in sorted_items[:50]]
 
     q_lower = q.lower()
     # Filter and sort by popularity
-    matching = [(name, count) for name, count in common_items.items() if q_lower in name.lower()]
+    matching = [(name, count) for name, count in filtered_items.items() if q_lower in name.lower()]
     matching.sort(key=lambda x: x[1], reverse=True)
     return [item[0] for item in matching[:15]]
 
 @app.get("/api/popular")
-def get_popular(limit: int = 20):
-    """Get popular items sorted by usage count"""
+def get_popular(limit: int = 50):
+    """Get popular items sorted by usage count (only items with 5+ uses or defaults)"""
     common_items = load_common_items()
-    sorted_items = sorted(common_items.items(), key=lambda x: x[1], reverse=True)
+
+    # Filter: show only items with count >= 5 or default items
+    filtered_items = {
+        name: count for name, count in common_items.items()
+        if count >= 5 or name in DEFAULT_COMMON_ITEMS
+    }
+
+    sorted_items = sorted(filtered_items.items(), key=lambda x: x[1], reverse=True)
     return [{"name": name, "count": count} for name, count in sorted_items[:limit]]
 
 @app.websocket("/api/ws/{list_id}")

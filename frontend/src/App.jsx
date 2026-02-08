@@ -59,7 +59,7 @@ function App() {
   useEffect(() => {
     const loadPopular = async () => {
       try {
-        const res = await fetch(`${API_BASE}/popular?limit=20`)
+        const res = await fetch(`${API_BASE}/popular?limit=50`)
         const data = await res.json()
         setPopularItems(data.map(item => item.name))
       } catch (err) {
@@ -572,7 +572,7 @@ function App() {
         <div className="popular-hints">
           <h3>Популярні товари</h3>
           <div className="popular-grid">
-            {popularItems.slice(0, 12).map((item, i) => (
+            {popularItems.slice(0, 50).map((item, i) => (
               <button
                 key={i}
                 className="popular-item"

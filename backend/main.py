@@ -296,7 +296,7 @@ def health():
 
 @app.post("/api/lists")
 def create_list(request: CreateListRequest):
-    list_id = str(uuid.uuid4())[:8]
+    list_id = str(uuid.uuid4()).replace("-", "")[:16]
     now = datetime.now().isoformat()
     shopping_list = {
         "id": list_id,
@@ -322,7 +322,7 @@ async def add_item(list_id: str, request: AddItemRequest):
         raise HTTPException(status_code=404, detail="List not found")
 
     item = {
-        "id": str(uuid.uuid4())[:8],
+        "id": str(uuid.uuid4()).replace("-", "")[:12],
         "name": request.name,
         "completed": False
     }

@@ -26,6 +26,13 @@ function App() {
   const editInputRef = useRef(null)
   const hintTimerRef = useRef(null)
 
+  // Register service worker for PWA
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {})
+    }
+  }, [])
+
   // Load saved lists from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(SAVED_LISTS_KEY)
@@ -517,11 +524,13 @@ function App() {
         <div className="home-header">
           <h1>Список покупок</h1>
           <div className="header-buttons">
-            {installPrompt && (
-              <button className="btn-logo" onClick={handleInstall} aria-label="Встановити додаток">
-                <img src="/logo.png" alt="Встановити" className="logo-small" />
-              </button>
-            )}
+            <button
+              className={`btn-logo ${installPrompt ? 'can-install' : ''}`}
+              onClick={installPrompt ? handleInstall : undefined}
+              aria-label={installPrompt ? "Встановити додаток" : "Список покупок"}
+            >
+              <img src="/logo.png" alt="Лого" className="logo-small" />
+            </button>
             <button className="btn-theme" onClick={toggleTheme} aria-label="Змінити тему">
               {theme === 'light' ? '🌙' : '☀️'}
             </button>

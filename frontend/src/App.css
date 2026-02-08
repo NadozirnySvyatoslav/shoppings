@@ -652,7 +652,21 @@ h2 {
 }
 
 .btn-logo:hover {
+  transform: scale(1.05);
+}
+
+.btn-logo.can-install {
+  animation: pulse 2s infinite;
+}
+
+.btn-logo.can-install:hover {
+  animation: none;
   transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
 }
 
 .logo-small {

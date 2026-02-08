@@ -69,14 +69,12 @@ function App() {
     loadPopular()
   }, [])
 
-  // Show hints after 5 seconds if list is empty
+  // Show hints after 5 seconds if list is empty (once shown, stay visible)
   useEffect(() => {
-    if (list && list.items && list.items.length === 0) {
+    if (list && list.items && list.items.length === 0 && !showPopularHints) {
       hintTimerRef.current = setTimeout(() => {
         setShowPopularHints(true)
       }, 5000)
-    } else {
-      setShowPopularHints(false)
     }
 
     return () => {
@@ -84,7 +82,7 @@ function App() {
         clearTimeout(hintTimerRef.current)
       }
     }
-  }, [list])
+  }, [list, showPopularHints])
 
   // Save list to localStorage when loaded
   const saveListToLocal = (listData) => {
@@ -578,10 +576,7 @@ function App() {
               <button
                 key={i}
                 className="popular-item"
-                onClick={() => {
-                  addItem(item)
-                  setShowPopularHints(false)
-                }}
+                onClick={() => addItem(item)}
               >
                 {item}
               </button>

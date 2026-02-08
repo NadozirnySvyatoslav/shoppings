@@ -369,10 +369,12 @@ async def update_item(list_id: str, item_id: str, request: UpdateItemRequest):
             shopping_list["updated_at"] = datetime.now().isoformat()
             save_list(shopping_list)
 
-            # Add to common items if new
+            # Add to common items or increment counter
             common_items = load_common_items()
-            if request.name not in common_items:
-                common_items[request.name] = 1
+            if request.name in common_items:
+                common_items[request.name] += 1
+            else:
+                common_items[request.name] = 5  # Start at 5 so it shows in suggestions immediately
             save_common_items(common_items)
 
             await manager.broadcast(list_id, {"type": "list_updated", "list": shopping_list})

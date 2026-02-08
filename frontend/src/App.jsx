@@ -99,11 +99,18 @@ function App() {
     // Remove if already exists
     lists = lists.filter(l => l.id !== listData.id)
 
+    // Get first 3 item names for preview
+    const itemsPreview = listData.items
+      ? listData.items.slice(0, 3).map(i => i.name)
+      : []
+
     // Add to beginning
     lists.unshift({
       id: listData.id,
       name: listData.name,
-      lastVisited: new Date().toISOString()
+      lastVisited: new Date().toISOString(),
+      itemsCount: listData.items?.length || 0,
+      itemsPreview: itemsPreview
     })
 
     // Keep only last 20 lists
@@ -503,7 +510,18 @@ function App() {
             <div className="saved-lists-grid">
               {savedLists.map(item => (
                 <a key={item.id} href={`/${item.id}`} className="saved-list-card">
-                  <div className="saved-list-name">{item.name}</div>
+                  <div className="saved-list-header">
+                    <div className="saved-list-name">{item.name}</div>
+                    {item.itemsCount > 0 && (
+                      <span className="saved-list-count">{item.itemsCount}</span>
+                    )}
+                  </div>
+                  {item.itemsPreview && item.itemsPreview.length > 0 && (
+                    <div className="saved-list-preview">
+                      {item.itemsPreview.join(', ')}
+                      {item.itemsCount > 3 && '...'}
+                    </div>
+                  )}
                   <div className="saved-list-date">{formatDate(item.lastVisited)}</div>
                   <button
                     className="saved-list-remove"

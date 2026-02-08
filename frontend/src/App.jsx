@@ -212,11 +212,19 @@ function App() {
     if (!itemName.trim()) return
 
     try {
-      await fetch(`${API_BASE}/lists/${listId}/items`, {
+      const res = await fetch(`${API_BASE}/lists/${listId}/items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: itemName.trim() })
       })
+      if (res.ok) {
+        const newItem = await res.json()
+        // Update local state immediately
+        setList(prev => ({
+          ...prev,
+          items: [...prev.items, newItem]
+        }))
+      }
       setNewItemName('')
       setSuggestions([])
       setShowSuggestions(false)
@@ -228,9 +236,18 @@ function App() {
 
   const toggleItem = async (itemId) => {
     try {
-      await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
+      const res = await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'PATCH'
       })
+      if (res.ok) {
+        // Update local state immediately
+        setList(prev => ({
+          ...prev,
+          items: prev.items.map(i =>
+            i.id === itemId ? { ...i, completed: !i.completed } : i
+          )
+        }))
+      }
     } catch (err) {
       setError('Помилка оновлення товару')
     }
@@ -270,11 +287,20 @@ function App() {
     }
 
     try {
-      await fetch(`${API_BASE}/lists/${listId}/items/${editingId}`, {
+      const res = await fetch(`${API_BASE}/lists/${listId}/items/${editingId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: editingName.trim() })
       })
+      if (res.ok) {
+        // Update local state immediately
+        setList(prev => ({
+          ...prev,
+          items: prev.items.map(i =>
+            i.id === editingId ? { ...i, name: editingName.trim() } : i
+          )
+        }))
+      }
       cancelEditing()
     } catch (err) {
       setError('Помилка редагування товару')

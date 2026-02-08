@@ -676,3 +676,64 @@ h2 {
     padding-right: 30px;
   }
 }
+
+/* Popular hints */
+.popular-hints {
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popular-hints h3 {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.popular-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.popular-item {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.popular-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+.popular-item:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .popular-item {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

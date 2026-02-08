@@ -17,9 +17,12 @@ function App() {
   const [editingId, setEditingId] = useState(null)
   const [editingName, setEditingName] = useState('')
   const [showInfo, setShowInfo] = useState(false)
+  const [popularItems, setPopularItems] = useState([])
+  const [showPopularHints, setShowPopularHints] = useState(false)
   const wsRef = useRef(null)
   const inputRef = useRef(null)
   const editInputRef = useRef(null)
+  const hintTimerRef = useRef(null)
 
   // Load saved lists from localStorage
   useEffect(() => {
@@ -51,6 +54,37 @@ function App() {
       editInputRef.current.select()
     }
   }, [editingId])
+
+  // Load popular items
+  useEffect(() => {
+    const loadPopular = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/popular?limit=20`)
+        const data = await res.json()
+        setPopularItems(data.map(item => item.name))
+      } catch (err) {
+        console.error('Failed to load popular items')
+      }
+    }
+    loadPopular()
+  }, [])
+
+  // Show hints after 5 seconds if list is empty
+  useEffect(() => {
+    if (list && list.items && list.items.length === 0) {
+      hintTimerRef.current = setTimeout(() => {
+        setShowPopularHints(true)
+      }, 5000)
+    } else {
+      setShowPopularHints(false)
+    }
+
+    return () => {
+      if (hintTimerRef.current) {
+        clearTimeout(hintTimerRef.current)
+      }
+    }
+  }, [list])
 
   // Save list to localStorage when loaded
   const saveListToLocal = (listData) => {
@@ -535,6 +569,26 @@ function App() {
           </div>
         )}
       </div>
+
+      {showPopularHints && popularItems.length > 0 && (
+        <div className="popular-hints">
+          <h3>Популярні товари</h3>
+          <div className="popular-grid">
+            {popularItems.slice(0, 12).map((item, i) => (
+              <button
+                key={i}
+                className="popular-item"
+                onClick={() => {
+                  addItem(item)
+                  setShowPopularHints(false)
+                }}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

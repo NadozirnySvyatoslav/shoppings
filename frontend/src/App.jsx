@@ -507,7 +507,12 @@ function App() {
       <header className="header">
         <div className="header-left">
           <a href="/" className="back-btn" aria-label="На головну">←</a>
-          <h1>{list?.name || 'Список покупок'}</h1>
+          <div className="header-title">
+            <h1>{list?.name || 'Список покупок'}</h1>
+            {list?.items?.length > 0 && (
+              <span className="list-count">{list.items.length} товарів</span>
+            )}
+          </div>
         </div>
         <button onClick={copyLink} className="btn btn-secondary">
           Поділитися

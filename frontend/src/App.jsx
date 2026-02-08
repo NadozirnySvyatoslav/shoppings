@@ -3,6 +3,7 @@ import './App.css'
 
 const API_BASE = '/api'
 const SAVED_LISTS_KEY = 'shopping_saved_lists'
+const THEME_KEY = 'shopping_theme'
 
 function App() {
   const [listId, setListId] = useState(null)
@@ -20,6 +21,7 @@ function App() {
   const [popularItems, setPopularItems] = useState([])
   const [showPopularHints, setShowPopularHints] = useState(false)
   const [installPrompt, setInstallPrompt] = useState(null)
+  const [theme, setTheme] = useState('light')
   const wsRef = useRef(null)
   const inputRef = useRef(null)
   const editInputRef = useRef(null)
@@ -36,6 +38,25 @@ function App() {
       }
     }
   }, [])
+
+  // Load and apply theme
+  useEffect(() => {
+    const savedTheme = localStorage.getItem(THEME_KEY)
+    if (savedTheme) {
+      setTheme(savedTheme)
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark')
+    }
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem(THEME_KEY, theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light')
+  }
 
   // PWA install prompt
   useEffect(() => {
@@ -515,7 +536,12 @@ function App() {
         </div>
         <div className="home-header">
           <h1>Список покупок</h1>
-          <button className="btn-info" onClick={() => setShowInfo(true)} aria-label="Інформація">?</button>
+          <div className="header-buttons">
+            <button className="btn-theme" onClick={toggleTheme} aria-label="Змінити тему">
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
+            <button className="btn-info" onClick={() => setShowInfo(true)} aria-label="Інформація">?</button>
+          </div>
         </div>
         <p className="subtitle">Створіть список і поділіться з іншими</p>
 
@@ -595,9 +621,14 @@ function App() {
             )}
           </div>
         </div>
-        <button onClick={copyLink} className="btn btn-secondary">
-          Поділитися
-        </button>
+        <div className="header-buttons">
+          <button className="btn-theme" onClick={toggleTheme} aria-label="Змінити тему">
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+          <button onClick={copyLink} className="btn btn-secondary">
+            Поділитися
+          </button>
+        </div>
       </header>
 
       {list?.items?.length > 0 && (

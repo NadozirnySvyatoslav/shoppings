@@ -4,11 +4,68 @@
   padding: 0;
 }
 
+:root {
+  --bg-gradient-start: #667eea;
+  --bg-gradient-end: #764ba2;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --text-muted: #999;
+  --text-on-primary: white;
+  --card-bg: white;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
+  --input-border: #eee;
+  --input-border-focus: #667eea;
+  --item-border: #f0f0f0;
+  --item-hover: #fafafa;
+  --divider-bg: #f5f5f5;
+  --checkmark-border: #ddd;
+  --btn-delete-hover-bg: #fee;
+  --btn-delete-hover-color: #e53935;
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --modal-bg: white;
+  --warning-bg: #fff3e0;
+  --warning-title: #e65100;
+  --disclaimer-bg: #ffebee;
+  --disclaimer-text: #c62828;
+  --popular-item-bg: rgba(255, 255, 255, 0.95);
+  --accent-color: #667eea;
+}
+
+[data-theme="dark"] {
+  --bg-gradient-start: #1a1a2e;
+  --bg-gradient-end: #16213e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-muted: #888;
+  --text-on-primary: white;
+  --card-bg: #252542;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: rgba(0, 0, 0, 0.4);
+  --input-border: #3a3a5c;
+  --input-border-focus: #667eea;
+  --item-border: #3a3a5c;
+  --item-hover: #2d2d4a;
+  --divider-bg: #2a2a45;
+  --checkmark-border: #555;
+  --btn-delete-hover-bg: #3d2a2a;
+  --btn-delete-hover-color: #ff6b6b;
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --modal-bg: #252542;
+  --warning-bg: #3d3020;
+  --warning-title: #ffb74d;
+  --disclaimer-bg: #3d2525;
+  --disclaimer-text: #ff8a80;
+  --popular-item-bg: rgba(37, 37, 66, 0.95);
+  --accent-color: #8b9eff;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   min-height: 100vh;
-  color: #333;
+  color: var(--text-primary);
+  transition: background 0.3s ease;
 }
 
 .container {
@@ -96,14 +153,15 @@ h2 {
   font-size: 16px;
   border: none;
   border-radius: 12px;
-  background: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  box-shadow: 0 4px 15px var(--card-shadow);
   outline: none;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, background 0.3s;
 }
 
 .input:focus {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px var(--card-shadow-hover);
 }
 
 .btn {
@@ -155,21 +213,22 @@ h2 {
 }
 
 .create-form {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 20px;
   margin-top: 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 40px var(--card-shadow);
+  transition: background 0.3s;
 }
 
 .create-form .input {
   margin-bottom: 20px;
   box-shadow: none;
-  border: 2px solid #eee;
+  border: 2px solid var(--input-border);
 }
 
 .create-form .input:focus {
-  border-color: #667eea;
+  border-color: var(--input-border-focus);
 }
 
 .create-form .btn {
@@ -214,13 +273,13 @@ h2 {
 }
 
 .saved-list-card {
-  background: white;
+  background: var(--card-bg);
   padding: 14px 16px;
   border-radius: 12px;
   text-decoration: none;
-  color: #333;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  color: var(--text-primary);
+  box-shadow: 0 4px 15px var(--card-shadow);
+  transition: all 0.2s, background 0.3s;
   display: grid;
   grid-template-columns: 1fr auto auto;
   grid-template-rows: auto auto;
@@ -230,7 +289,7 @@ h2 {
 
 .saved-list-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px var(--card-shadow-hover);
 }
 
 .saved-list-header {
@@ -251,7 +310,7 @@ h2 {
 }
 
 .saved-list-count {
-  background: #667eea;
+  background: var(--accent-color);
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -264,14 +323,14 @@ h2 {
   grid-column: 1;
   grid-row: 2;
   font-size: 12px;
-  color: #888;
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .saved-list-date {
-  color: #999;
+  color: var(--text-muted);
   font-size: 12px;
   grid-column: 2;
   grid-row: 1 / 3;
@@ -298,8 +357,8 @@ h2 {
 }
 
 .saved-list-remove:hover {
-  background: #fee;
-  color: #e53935;
+  background: var(--btn-delete-hover-bg);
+  color: var(--btn-delete-hover-color);
 }
 
 .progress-container {
@@ -348,9 +407,9 @@ h2 {
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px var(--card-shadow-hover);
   list-style: none;
   margin-top: 5px;
   max-height: 200px;
@@ -362,10 +421,11 @@ h2 {
   padding: 12px 20px;
   cursor: pointer;
   transition: background 0.15s;
+  color: var(--text-primary);
 }
 
 .suggestions li:hover {
-  background: #f5f5f5;
+  background: var(--item-hover);
 }
 
 .suggestions li:first-child {
@@ -377,17 +437,18 @@ h2 {
 }
 
 .items-list {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 40px var(--card-shadow);
   overflow: hidden;
+  transition: background 0.3s;
 }
 
 .item {
   display: flex;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--item-border);
   transition: background 0.15s;
 }
 
@@ -396,7 +457,7 @@ h2 {
 }
 
 .item:hover {
-  background: #fafafa;
+  background: var(--item-hover);
 }
 
 .item-label {
@@ -414,7 +475,7 @@ h2 {
 .checkmark {
   width: 24px;
   height: 24px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--checkmark-border);
   border-radius: 50%;
   flex-shrink: 0;
   transition: all 0.2s;
@@ -436,7 +497,7 @@ h2 {
 
 .item.completed .item-name {
   text-decoration: line-through;
-  color: #999;
+  color: var(--text-muted);
 }
 
 .btn-delete {
@@ -444,7 +505,7 @@ h2 {
   height: 36px;
   border: none;
   background: transparent;
-  color: #ccc;
+  color: var(--text-muted);
   font-size: 24px;
   cursor: pointer;
   border-radius: 50%;
@@ -455,8 +516,8 @@ h2 {
 }
 
 .btn-delete:hover {
-  background: #fee;
-  color: #e53935;
+  background: var(--btn-delete-hover-bg);
+  color: var(--btn-delete-hover-color);
 }
 
 .btn-save {
@@ -482,10 +543,11 @@ h2 {
   flex: 1;
   padding: 8px 12px;
   font-size: 16px;
-  border: 2px solid #667eea;
+  border: 2px solid var(--accent-color);
   border-radius: 8px;
   outline: none;
-  background: white;
+  background: var(--card-bg);
+  color: var(--text-primary);
   min-width: 0;
 }
 
@@ -498,26 +560,26 @@ h2 {
 }
 
 .item-name:hover {
-  background: #f0f0f0;
+  background: var(--item-hover);
   border-radius: 4px;
   padding: 4px 8px;
   margin: 0 -8px;
 }
 
 .divider {
-  background: #f5f5f5;
+  background: var(--divider-bg);
   padding: 10px 20px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  color: #999;
+  color: var(--text-muted);
   letter-spacing: 1px;
 }
 
 .empty {
   padding: 40px 20px;
   text-align: center;
-  color: #999;
+  color: var(--text-muted);
 }
 
 .loading, .error {
@@ -629,6 +691,33 @@ h2 {
   gap: 12px;
 }
 
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-theme {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-theme:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
 .btn-info {
   width: 36px;
   height: 36px;
@@ -657,7 +746,7 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -667,7 +756,7 @@ h2 {
 }
 
 .modal {
-  background: white;
+  background: var(--modal-bg);
   border-radius: 20px;
   padding: 30px;
   max-width: 500px;
@@ -676,6 +765,7 @@ h2 {
   overflow-y: auto;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s;
 }
 
 .modal-close {
@@ -685,8 +775,8 @@ h2 {
   width: 32px;
   height: 32px;
   border: none;
-  background: #f0f0f0;
-  color: #666;
+  background: var(--divider-bg);
+  color: var(--text-secondary);
   font-size: 20px;
   cursor: pointer;
   border-radius: 50%;
@@ -697,18 +787,18 @@ h2 {
 }
 
 .modal-close:hover {
-  background: #e0e0e0;
-  color: #333;
+  background: var(--item-hover);
+  color: var(--text-primary);
 }
 
 .modal h2 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 20px;
   font-size: 1.5rem;
 }
 
 .modal h3 {
-  color: #667eea;
+  color: var(--accent-color);
   font-size: 1rem;
   margin-bottom: 8px;
 }
@@ -718,26 +808,26 @@ h2 {
 }
 
 .info-section p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.5;
 }
 
 .info-warning {
-  background: #fff3e0;
+  background: var(--warning-bg);
   border-radius: 12px;
   padding: 16px;
   margin: 20px 0;
 }
 
 .info-warning h3 {
-  color: #e65100;
+  color: var(--warning-title);
 }
 
 .info-warning ul {
   margin: 0;
   padding-left: 20px;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
@@ -746,14 +836,14 @@ h2 {
 }
 
 .info-disclaimer {
-  background: #ffebee;
+  background: var(--disclaimer-bg);
   border-radius: 12px;
   padding: 16px;
   text-align: center;
 }
 
 .info-disclaimer p {
-  color: #c62828;
+  color: var(--disclaimer-text);
   font-size: 13px;
   margin: 4px 0;
 }
@@ -803,21 +893,22 @@ h2 {
 }
 
 .popular-item {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--popular-item-bg);
   border: none;
   border-radius: 20px;
   padding: 10px 16px;
   font-size: 14px;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--card-shadow);
   white-space: nowrap;
 }
 
 .popular-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background: white;
+  box-shadow: 0 4px 12px var(--card-shadow-hover);
+  background: var(--card-bg);
 }
 
 .popular-item:active {

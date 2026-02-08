@@ -16,6 +16,7 @@ function App() {
   const [savedLists, setSavedLists] = useState([])
   const [editingId, setEditingId] = useState(null)
   const [editingName, setEditingName] = useState('')
+  const [showInfo, setShowInfo] = useState(false)
   const wsRef = useRef(null)
   const inputRef = useRef(null)
   const editInputRef = useRef(null)
@@ -361,12 +362,61 @@ function App() {
     )
   }
 
+  // Info modal
+  const InfoModal = () => (
+    <div className="modal-overlay" onClick={() => setShowInfo(false)}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={() => setShowInfo(false)}>×</button>
+        <h2>Як користуватися</h2>
+
+        <div className="info-section">
+          <h3>Створення списку</h3>
+          <p>Введіть назву та натисніть "Створити список"</p>
+        </div>
+
+        <div className="info-section">
+          <h3>Спільний доступ</h3>
+          <p>Натисніть "Поділитися" і надішліть посилання. Всі зміни синхронізуються в реальному часі!</p>
+        </div>
+
+        <div className="info-section">
+          <h3>Підказки</h3>
+          <p>Почніть вводити назву товару - з'являться підказки</p>
+        </div>
+
+        <div className="info-section">
+          <h3>Редагування</h3>
+          <p>Натисніть на назву товару щоб змінити її</p>
+        </div>
+
+        <div className="info-warning">
+          <h3>Важливо</h3>
+          <ul>
+            <li>Реєстрація не потрібна - все анонімно</li>
+            <li>Будь-хто з посиланням може редагувати список</li>
+            <li>Списки зберігаються локально у браузері</li>
+          </ul>
+        </div>
+
+        <div className="info-disclaimer">
+          <p><strong>Використовуйте на свій страх і ризик.</strong></p>
+          <p>Сервіс надається "як є" без гарантій. Не зберігайте конфіденційну інформацію.</p>
+        </div>
+      </div>
+    </div>
+  )
+
   // Home page - create new list and show saved
   if (!listId) {
     return (
       <div className="container">
-        <h1>Список покупок</h1>
+        <div className="home-header">
+          <h1>Список покупок</h1>
+          <button className="btn-info" onClick={() => setShowInfo(true)} aria-label="Інформація">?</button>
+        </div>
         <p className="subtitle">Створіть список і поділіться з іншими</p>
+
+        {showInfo && <InfoModal />}
 
         <form onSubmit={createList} className="create-form">
           <input

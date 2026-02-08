@@ -362,9 +362,25 @@ function App() {
     }
   }
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(window.location.href)
-    alert('Посилання скопійовано!')
+  const copyLink = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: list?.name || 'Список покупок',
+          text: 'Перегляньте мій список покупок',
+          url: window.location.href
+        })
+      } catch (err) {
+        // User cancelled or error - fallback to copy
+        if (err.name !== 'AbortError') {
+          navigator.clipboard.writeText(window.location.href)
+          alert('Посилання скопійовано!')
+        }
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      alert('Посилання скопійовано!')
+    }
   }
 
   const handleKeyDown = (e) => {

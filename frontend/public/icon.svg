@@ -7,13 +7,11 @@
   </defs>
   <!-- Background -->
   <rect width="512" height="512" rx="100" fill="url(#bg)"/>
-  <!-- Shopping bag -->
-  <path d="M160 180 L160 400 C160 420 175 435 195 435 L317 435 C337 435 352 420 352 400 L352 180 Z" fill="white" opacity="0.95"/>
-  <!-- Bag handle -->
-  <path d="M200 180 L200 140 C200 105 225 80 256 80 C287 80 312 105 312 140 L312 180" fill="none" stroke="white" stroke-width="24" stroke-linecap="round"/>
+  <!-- Cart body -->
+  <path d="M120 150 L160 150 L200 320 L380 320 L410 180 L180 180" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Cart wheels -->
+  <circle cx="220" cy="380" r="30" fill="white"/>
+  <circle cx="350" cy="380" r="30" fill="white"/>
   <!-- Checkmark -->
-  <path d="M205 290 L240 330 L310 240" fill="none" stroke="#4CAF50" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- List lines -->
-  <line x1="195" y1="370" x2="280" y2="370" stroke="#c4a77d" stroke-width="12" stroke-linecap="round" opacity="0.6"/>
-  <line x1="195" y1="400" x2="240" y2="400" stroke="#c4a77d" stroke-width="12" stroke-linecap="round" opacity="0.4"/>
+  <path d="M240 230 L280 270 L360 190" fill="none" stroke="#4CAF50" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

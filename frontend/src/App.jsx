@@ -482,6 +482,9 @@ function App() {
   if (!listId) {
     return (
       <div className="container">
+        <div className="home-logo">
+          <img src="/logo.png" alt="Список покупок" className="logo" />
+        </div>
         <div className="home-header">
           <h1>Список покупок</h1>
           <button className="btn-info" onClick={() => setShowInfo(true)} aria-label="Інформація">?</button>

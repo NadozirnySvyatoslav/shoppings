@@ -19,6 +19,7 @@ function App() {
   const [showInfo, setShowInfo] = useState(false)
   const [popularItems, setPopularItems] = useState([])
   const [showPopularHints, setShowPopularHints] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState(null)
   const wsRef = useRef(null)
   const inputRef = useRef(null)
   const editInputRef = useRef(null)
@@ -35,6 +36,33 @@ function App() {
       }
     }
   }, [])
+
+  // PWA install prompt
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault()
+      setInstallPrompt(e)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setInstallPrompt(null)
+    }
+
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  const handleInstall = async () => {
+    if (!installPrompt) return
+
+    installPrompt.prompt()
+    const { outcome } = await installPrompt.userChoice
+
+    if (outcome === 'accepted') {
+      setInstallPrompt(null)
+    }
+  }
 
   // Get list ID from URL
   useEffect(() => {
@@ -506,6 +534,12 @@ function App() {
             Створити список
           </button>
         </form>
+
+        {installPrompt && (
+          <button onClick={handleInstall} className="btn btn-install">
+            📲 Встановити додаток
+          </button>
+        )}
 
         {savedLists.length > 0 && (
           <div className="saved-lists">

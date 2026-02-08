@@ -238,9 +238,16 @@ function App() {
 
   const deleteItem = async (itemId) => {
     try {
-      await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
+      const res = await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'DELETE'
       })
+      if (res.ok) {
+        // Update local state immediately
+        setList(prev => ({
+          ...prev,
+          items: prev.items.filter(i => i.id !== itemId)
+        }))
+      }
     } catch (err) {
       setError('Помилка видалення товару')
     }

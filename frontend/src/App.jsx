@@ -22,7 +22,6 @@ function App() {
   const [showPopularHints, setShowPopularHints] = useState(false)
   const [installPrompt, setInstallPrompt] = useState(null)
   const [theme, setTheme] = useState('light')
-  const wsRef = useRef(null)
   const inputRef = useRef(null)
   const editInputRef = useRef(null)
   const hintTimerRef = useRef(null)
@@ -198,32 +197,19 @@ function App() {
     loadList()
   }, [listId])
 
-  // WebSocket connection
-  useEffect(() => {
-    if (!listId) return
-
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/ws/${listId}`)
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.type === 'list_updated') {
-        setList(data.list)
-        // Update name in saved lists if changed
-        saveListToLocal(data.list)
+  // Reload list helper
+  const reloadList = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/lists/${listId}`)
+      if (res.ok) {
+        const data = await res.json()
+        setList(data)
+        saveListToLocal(data)
       }
+    } catch (err) {
+      console.error('Failed to reload list')
     }
-
-    ws.onerror = () => {
-      console.log('WebSocket error')
-    }
-
-    wsRef.current = ws
-
-    return () => {
-      ws.close()
-    }
-  }, [listId])
+  }
 
   // Fetch suggestions
   useEffect(() => {
@@ -277,7 +263,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: itemName.trim() })
       })
-      // WebSocket will handle the state update
+      await reloadList()
       inputRef.current?.focus()
     } catch (err) {
       setError('Помилка додавання товару')
@@ -297,9 +283,9 @@ function App() {
       await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'PATCH'
       })
-      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка оновлення товару')
+      await reloadList()
     }
   }
 
@@ -314,9 +300,9 @@ function App() {
       await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'DELETE'
       })
-      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка видалення товару')
+      await reloadList()
     }
   }
 
@@ -354,9 +340,9 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newName })
       })
-      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка редагування товару')
+      await reloadList()
     }
   }
 

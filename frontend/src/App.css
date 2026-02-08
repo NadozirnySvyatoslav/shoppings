@@ -236,31 +236,6 @@ h2 {
   width: 100%;
 }
 
-/* Install button */
-.btn-install {
-  width: 100%;
-  margin-top: 16px;
-  padding: 14px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  border: 2px solid var(--accent-color);
-  border-radius: 12px;
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-install:hover {
-  background: var(--accent-color);
-  color: white;
-  transform: translateY(-2px);
-}
-
-.btn-install:active {
-  transform: translateY(0);
-}
-
 /* Saved lists */
 .saved-lists {
   margin-top: 30px;
@@ -660,27 +635,31 @@ h2 {
   }
 }
 
-/* Home logo */
-.home-logo {
+/* Logo button for PWA install */
+.btn-logo {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  overflow: hidden;
 }
 
-.logo {
-  width: 120px;
-  height: 120px;
+.btn-logo:hover {
+  transform: scale(1.1);
+}
+
+.logo-small {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 480px) {
-  .logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 20px;
-  }
+  border-radius: 6px;
 }
 
 /* Home header with info button */

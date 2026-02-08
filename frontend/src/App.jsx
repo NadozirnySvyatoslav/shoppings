@@ -514,12 +514,14 @@ function App() {
   if (!listId) {
     return (
       <div className="container">
-        <div className="home-logo">
-          <img src="/logo.png" alt="Список покупок" className="logo" />
-        </div>
         <div className="home-header">
           <h1>Список покупок</h1>
           <div className="header-buttons">
+            {installPrompt && (
+              <button className="btn-logo" onClick={handleInstall} aria-label="Встановити додаток">
+                <img src="/logo.png" alt="Встановити" className="logo-small" />
+              </button>
+            )}
             <button className="btn-theme" onClick={toggleTheme} aria-label="Змінити тему">
               {theme === 'light' ? '🌙' : '☀️'}
             </button>
@@ -543,12 +545,6 @@ function App() {
             Створити список
           </button>
         </form>
-
-        {installPrompt && (
-          <button onClick={handleInstall} className="btn btn-install">
-            📲 Встановити додаток
-          </button>
-        )}
 
         {savedLists.length > 0 && (
           <div className="saved-lists">

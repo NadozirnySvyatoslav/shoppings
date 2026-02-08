@@ -267,23 +267,17 @@ function App() {
     const itemName = name || newItemName
     if (!itemName.trim()) return
 
+    setNewItemName('')
+    setSuggestions([])
+    setShowSuggestions(false)
+
     try {
-      const res = await fetch(`${API_BASE}/lists/${listId}/items`, {
+      await fetch(`${API_BASE}/lists/${listId}/items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: itemName.trim() })
       })
-      if (res.ok) {
-        const newItem = await res.json()
-        // Update local state immediately
-        setList(prev => ({
-          ...prev,
-          items: [...prev.items, newItem]
-        }))
-      }
-      setNewItemName('')
-      setSuggestions([])
-      setShowSuggestions(false)
+      // WebSocket will handle the state update
       inputRef.current?.focus()
     } catch (err) {
       setError('Помилка додавання товару')
@@ -291,36 +285,36 @@ function App() {
   }
 
   const toggleItem = async (itemId) => {
+    // Optimistic update for instant feedback
+    setList(prev => ({
+      ...prev,
+      items: prev.items.map(i =>
+        i.id === itemId ? { ...i, completed: !i.completed } : i
+      )
+    }))
+
     try {
-      const res = await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
+      await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'PATCH'
       })
-      if (res.ok) {
-        // Update local state immediately
-        setList(prev => ({
-          ...prev,
-          items: prev.items.map(i =>
-            i.id === itemId ? { ...i, completed: !i.completed } : i
-          )
-        }))
-      }
+      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка оновлення товару')
     }
   }
 
   const deleteItem = async (itemId) => {
+    // Optimistic update for instant feedback
+    setList(prev => ({
+      ...prev,
+      items: prev.items.filter(i => i.id !== itemId)
+    }))
+
     try {
-      const res = await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
+      await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'DELETE'
       })
-      if (res.ok) {
-        // Update local state immediately
-        setList(prev => ({
-          ...prev,
-          items: prev.items.filter(i => i.id !== itemId)
-        }))
-      }
+      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка видалення товару')
     }
@@ -342,22 +336,25 @@ function App() {
       return
     }
 
+    const newName = editingName.trim()
+    const itemId = editingId
+
+    // Optimistic update for instant feedback
+    setList(prev => ({
+      ...prev,
+      items: prev.items.map(i =>
+        i.id === itemId ? { ...i, name: newName } : i
+      )
+    }))
+    cancelEditing()
+
     try {
-      const res = await fetch(`${API_BASE}/lists/${listId}/items/${editingId}`, {
+      await fetch(`${API_BASE}/lists/${listId}/items/${itemId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: editingName.trim() })
+        body: JSON.stringify({ name: newName })
       })
-      if (res.ok) {
-        // Update local state immediately
-        setList(prev => ({
-          ...prev,
-          items: prev.items.map(i =>
-            i.id === editingId ? { ...i, name: editingName.trim() } : i
-          )
-        }))
-      }
-      cancelEditing()
+      // WebSocket will sync the final state
     } catch (err) {
       setError('Помилка редагування товару')
     }
